@@ -293,6 +293,549 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/liustarsun/418abbd1.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liustarsun">
+      <meta itemprop="description" content="积跬步，至千里">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="liustarsun">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/liustarsun/418abbd1.html" class="post-title-link" itemprop="url">公众号入门</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-17 14:55:57" itemprop="dateCreated datePublished" datetime="2019-10-17T14:55:57+08:00">2019-10-17</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-10-18 16:32:28" itemprop="dateModified" datetime="2019-10-18T16:32:28+08:00">2019-10-18</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="全局码"><a href="#全局码" class="headerlink" title="全局码"></a>全局码</h1><ol>
+<li>每次调用公众号平台接口时，会获得正确或者错误的返回码，开发者可以根据返回码来排查错误</li>
+</ol>
+<h1 id="开发流程"><a href="#开发流程" class="headerlink" title="开发流程"></a>开发流程</h1><ol>
+<li><p>必须要有一个公网的IP地址，可以使用云服务器，也可以使用内网穿透</p>
+<blockquote>
+<p>github: cnlh/nps</p>
+</blockquote>
+</li>
+<li><p><strong>公众平台官网登录 - 基本配置 - 服务器配置 - 修改配置</strong>选项</p>
+<blockquote>
+<p><strong>url填写</strong>：http://外网IP/wx; 外网IP可以云服务器申请的地址，也可以是内网穿透的地址；http的端口号固定使用80，不可填写其他<br><strong>Token</strong>：自主设置，<em>仅仅用于验证开发者服务器</em>，注意和<strong>access_token</strong>区分<br>调整服务器端token逻辑后，点击<strong>提交</strong>按钮 –&gt; 验证成功</p>
+</blockquote>
+</li>
+<li><p>获取数据 - 验证数据 - 确认是不是微信后台发来的数据 - 继续其他服务</p>
+</li>
+</ol>
+<h1 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h1><ol>
+<li><p>逻辑处理服务器</p>
+</li>
+<li><p><strong>对接微信服务器API</strong>的API-Proxy服务器(代理服务器)</p>
+</li>
+<li><p>AccessToken中控服务器</p>
+<blockquote>
+<p>优点是提高业务功能稳定性 </p>
+</blockquote>
+</li>
+</ol>
+<h2 id="实现功能-被动消息-图片，文本等等"><a href="#实现功能-被动消息-图片，文本等等" class="headerlink" title="实现功能(被动消息, 图片，文本等等)"></a>实现功能(被动消息, 图片，文本等等)</h2><p>粉丝发给公众号文本消息 &lt;–&gt; 公众号回复给粉丝     </p>
+<ol>
+<li>开发者后台的消息是xml格式<br>粉丝发给公众号:      </li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ToUserName</span>&gt;</span>&lt;![CDATA[公众号]]&gt;<span class="tag">&lt;/<span class="name">ToUserName</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">FromUserName</span>&gt;</span>&lt;![CDATA[粉丝号]]&gt;<span class="tag">&lt;/<span class="name">FromUserName</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">CreateTime</span>&gt;</span>1460537339<span class="tag">&lt;/<span class="name">CreateTime</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">MsgType</span>&gt;</span>&lt;![CDATA[text]]&gt;<span class="tag">&lt;/<span class="name">MsgType</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">Content</span>&gt;</span>&lt;![CDATA[欢迎开启公众号开发者模式]]&gt;<span class="tag">&lt;/<span class="name">Content</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">MsgId</span>&gt;</span>6272960105994287618<span class="tag">&lt;/<span class="name">MsgId</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>公众号给粉丝：     </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">xml</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">ToUserName</span>&gt;</span>&lt;![CDATA[粉丝号]]&gt;<span class="tag">&lt;/<span class="name">ToUserName</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">FromUserName</span>&gt;</span>&lt;![CDATA[公众号]]&gt;<span class="tag">&lt;/<span class="name">FromUserName</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">CreateTime</span>&gt;</span>1460541339<span class="tag">&lt;/<span class="name">CreateTime</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">MsgType</span>&gt;</span>&lt;![CDATA[text]]&gt;<span class="tag">&lt;/<span class="name">MsgType</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">Content</span>&gt;</span>&lt;![CDATA[test]]&gt;<span class="tag">&lt;/<span class="name">Content</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">xml</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p>粉丝 –&gt; 微信后台 –&gt; 逻辑处理服务器, 即云服务器或者是本地服务器<br>逻辑处理服务器在收到微信后台发起的请求时，必须要在<strong>五秒内回复success或者空串</strong>，否则微信后台会发起三次重试    </p>
+</li>
+<li><p>解析从微信后台收到的消息 –&gt; 保存相关信息，如用户名等 –&gt; 组装回复消息 –&gt; 发送给微信平台 </p>
+</li>
+<li><p>GET函数是获取数据；POST函数是发送数据 </p>
+</li>
+</ol>
+<h1 id="AccessToken意义"><a href="#AccessToken意义" class="headerlink" title="AccessToken意义"></a>AccessToken意义</h1><ol>
+<li>调用公众号接口的<strong>唯一全局凭证</strong>，调用接口时都需要使用access_token</li>
+<li>存储空间大于512个字符空间，有效期为2个小时，需要定时刷新，最新有效</li>
+</ol>
+<h1 id="AccessToken使用规则"><a href="#AccessToken使用规则" class="headerlink" title="AccessToken使用规则"></a>AccessToken使用规则</h1><ol>
+<li>使用中控服务器统一获取和刷新access_token</li>
+<li>access_token的有效期通过返回的expire_in，中控服务器需要<strong>内部定时刷新</strong>和<strong>被动刷新</strong></li>
+</ol>
+<h1 id="AccessToken使用方法"><a href="#AccessToken使用方法" class="headerlink" title="AccessToken使用方法"></a>AccessToken使用方法</h1><p>使用AppID和AppSecret调用接口来获取access_token，请求说明：    </p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https请求方式: GET https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&amp;appid=APPID&amp;secret=APPSECRET</span><br></pre></td></tr></table></figure>
+
+<p>微信后台返回：    </p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 成功</span><br><span class="line">&#123;<span class="attr">"access_token"</span>:<span class="string">"ACCESS_TOKEN"</span>,<span class="attr">"expires_in"</span>:<span class="number">7200</span>&#125;</span><br><span class="line"></span><br><span class="line">// 失败</span><br><span class="line">&#123;<span class="attr">"errcode"</span>:<span class="number">40013</span>,<span class="attr">"errmsg"</span>:<span class="string">"invalid appid"</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>通过中控服务器获取全局的access_token</strong>       </p>
+<p># </p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/liustarsun/3be9a986.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liustarsun">
+      <meta itemprop="description" content="积跬步，至千里">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="liustarsun">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/liustarsun/3be9a986.html" class="post-title-link" itemprop="url">Numpy</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-12 16:00:59 / 修改时间：16:32:15" itemprop="dateCreated datePublished" datetime="2019-10-12T16:00:59+08:00">2019-10-12</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>CUDA（Compute Unified Device Architecture），是显卡厂商NVIDIA推出的运算平台</strong>    </p>
+<h2 id="Numpy"><a href="#Numpy" class="headerlink" title="Numpy"></a>Numpy</h2><p><a href="https://www.runoob.com/numpy/numpy-tutorial.html" target="_blank" rel="noopener">Numpy</a></p>
+<p>Q:</p>
+<ol>
+<li>自动求导机制</li>
+<li>梯度</li>
+<li>损失函数</li>
+<li>随机梯度下降法</li>
+<li>交叉熵损失</li>
+<li>准备数据</li>
+<li>ReLU网络</li>
+<li>张量是n维数组</li>
+<li>手动实现神经网络的前向和后向传递</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/liustarsun/2f20d74c.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liustarsun">
+      <meta itemprop="description" content="积跬步，至千里">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="liustarsun">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/liustarsun/2f20d74c.html" class="post-title-link" itemprop="url">JobDescription</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-11 13:47:07" itemprop="dateCreated datePublished" datetime="2019-10-11T13:47:07+08:00">2019-10-11</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-10-12 15:56:53" itemprop="dateModified" datetime="2019-10-12T15:56:53+08:00">2019-10-12</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="要求"><a href="#要求" class="headerlink" title="要求"></a>要求</h2><ul>
+<li>麒麟人工智能产业园-中国科学院自动化研究所南京人工智能芯片</li>
+</ul>
+<ol>
+<li>C++要求</li>
+<li>预测，分类，聚类，强化学习，深度学习</li>
+<li>caffe，pytorch，tensorflow</li>
+<li>人脸识别，行为识别，目标检测，语义分析，深度估计，图像增强</li>
+<li>视频监控，自动驾驶，智能零售，无人机，工业检测</li>
+</ol>
+<h2 id="技能提升"><a href="#技能提升" class="headerlink" title="技能提升"></a>技能提升</h2><ol>
+<li>理论</li>
+<li>编程</li>
+<li>应用</li>
+</ol>
+<h2 id="优先级"><a href="#优先级" class="headerlink" title="优先级"></a>优先级</h2><ol>
+<li>pytorch(5星) &lt;– numpy</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/Hexo/e121ad2.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -338,12 +881,24 @@
                 
               
 
-              <time title="创建时间：2019-10-11 10:22:56 / 修改时间：12:24:36" itemprop="dateCreated datePublished" datetime="2019-10-11T10:22:56+08:00">2019-10-11</time>
+              <time title="创建时间：2019-10-11 10:22:56" itemprop="dateCreated datePublished" datetime="2019-10-11T10:22:56+08:00">2019-10-11</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-10-12 16:06:21" itemprop="dateModified" datetime="2019-10-12T16:06:21+08:00">2019-10-12</time>
               
             
           </span>
@@ -403,13 +958,13 @@
 <h2 id="安装Node-js"><a href="#安装Node-js" class="headerlink" title="安装Node.js"></a>安装Node.js</h2><p>windows直接安装LTS版本即可，成功后，在命令行查看：    </p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ node -v    </span><br><span class="line">v10.16.0</span><br><span class="line">$ npm -v     </span><br><span class="line">6.9.0</span><br></pre></td></tr></table></figure>
 
-<h2 id="安装Hexo-1"><a href="#安装Hexo-1" class="headerlink" title="安装Hexo"></a>安装Hexo</h2><h3 id="新建文件夹"><a href="#新建文件夹" class="headerlink" title="新建文件夹"></a>新建文件夹</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">$ npm inst$ npm install -g hexo-cli</span><br><span class="line">C:\Users\exgxxln\AppData\Roaming\npm\hexo -&gt; C:\Users\exgxxln\AppData\Roaming\npm\node_modules\hexo-cli\bin\hexo</span><br><span class="line">npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@1.2.9 (node_modules\hexo-cli\node_modules\fsevents):</span><br><span class="line">npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform <span class="keyword">for</span> fsevents@1.2.9: wanted &#123;<span class="string">"os"</span>:<span class="string">"darwin"</span>,<span class="string">"arch"</span>:<span class="string">"any"</span>&#125; (current: &#123;<span class="string">"os"</span>:<span class="string">"win32"</span>,<span class="string">"arch"</span>:<span class="string">"x64"</span>&#125;)</span><br><span class="line"></span><br><span class="line">+ hexo-cli@2.0.0</span><br><span class="line">updated 1 package <span class="keyword">in</span> 5.405s</span><br><span class="line"></span><br><span class="line">```  </span><br><span class="line">---</span><br><span class="line"><span class="comment">### 查看结果   </span></span><br><span class="line">``` bash</span><br><span class="line">$ hexo -v</span><br><span class="line">hexo-cli: 2.0.0</span><br><span class="line">os: Windows_NT 10.0.16299 win32 x64</span><br><span class="line">http_parser: 2.8.0</span><br><span class="line">node: 10.16.0</span><br><span class="line">v8: 6.8.275.32-node.52</span><br><span class="line">uv: 1.28.0</span><br><span class="line">zlib: 1.2.11</span><br><span class="line">brotli: 1.0.7</span><br><span class="line">ares: 1.15.0</span><br><span class="line">modules: 64</span><br><span class="line">nghttp2: 1.34.0</span><br><span class="line">napi: 4</span><br><span class="line">openssl: 1.1.1b</span><br><span class="line">icu: 64.2</span><br><span class="line">unicode: 12.1</span><br><span class="line">cldr: 35.1</span><br><span class="line">tz: 2019a</span><br></pre></td></tr></table></figure>
+<h2 id="安装Hexo-1"><a href="#安装Hexo-1" class="headerlink" title="安装Hexo"></a>安装Hexo</h2><h3 id="新建文件夹"><a href="#新建文件夹" class="headerlink" title="新建文件夹"></a>新建文件夹</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$ npm inst$ npm install -g hexo-cli</span><br><span class="line">C:\Users\exgxxln\AppData\Roaming\npm\hexo -&gt; C:\Users\exgxxln\AppData\Roaming\npm\node_modules\hexo-cli\bin\hexo</span><br><span class="line">npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@1.2.9 (node_modules\hexo-cli\node_modules\fsevents):</span><br><span class="line">npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform <span class="keyword">for</span> fsevents@1.2.9: wanted &#123;<span class="string">"os"</span>:<span class="string">"darwin"</span>,<span class="string">"arch"</span>:<span class="string">"any"</span>&#125; (current: &#123;<span class="string">"os"</span>:<span class="string">"win32"</span>,<span class="string">"arch"</span>:<span class="string">"x64"</span>&#125;)</span><br><span class="line"></span><br><span class="line">+ hexo-cli@2.0.0</span><br><span class="line">updated 1 package <span class="keyword">in</span> 5.405s</span><br><span class="line"></span><br><span class="line">```  </span><br><span class="line">---</span><br><span class="line"><span class="comment">### 查看结果   </span></span><br><span class="line">``` bash</span><br><span class="line">$ hexo -v</span><br><span class="line">hexo-cli: 2.0.0</span><br><span class="line">os: Windows_NT 10.0.16299 win32 x64</span><br><span class="line">......</span><br></pre></td></tr></table></figure>
 
 <h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用WIN10自带的命令行 ==&gt; MINGW可能会有些问题</span></span><br><span class="line"><span class="comment"># 新建一个网站。如果没有设置 folder ，Hexo 默认在目前的文件夹建立网站。</span></span><br><span class="line">$ hexo init [folder](<span class="string">"StarBlog"</span>)</span><br><span class="line">.....</span><br><span class="line">found 2 low severity vulnerabilities</span><br><span class="line">  run `npm audit fix` to fix them, or `npm audit` <span class="keyword">for</span> details</span><br><span class="line">INFO  Start blogging with Hexo!</span><br></pre></td></tr></table></figure>
 
 <h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> StarBlog/</span><br><span class="line">$ npm install</span><br><span class="line">audited 4697 packages <span class="keyword">in</span> 3.6s</span><br><span class="line">found 2 low severity vulnerabilities</span><br><span class="line">  run `npm audit fix` to fix them, or `npm audit` <span class="keyword">for</span> details</span><br><span class="line"></span><br><span class="line">$ npm audit fix</span><br><span class="line">up to date <span class="keyword">in</span> 1.457s</span><br><span class="line">fixed 0 of 2 vulnerabilities <span class="keyword">in</span> 4697 scanned packages</span><br><span class="line">  2 vulnerabilities required manual review and could not be updated</span><br></pre></td></tr></table></figure>
 
-<h3 id="生产静态blog"><a href="#生产静态blog" class="headerlink" title="生产静态blog"></a>生产静态blog</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate(g)</span><br><span class="line">INFO  Start processing</span><br><span class="line">INFO  Files loaded <span class="keyword">in</span> 230 ms</span><br><span class="line">INFO  Generated: index.html</span><br><span class="line">INFO  Generated: archives/index.html</span><br><span class="line">INFO  Generated: fancybox/blank.gif</span><br><span class="line">INFO  Generated: fancybox/fancybox_loading@2x.gif</span><br><span class="line">INFO  Generated: fancybox/fancybox_overlay.png</span><br><span class="line">INFO  Generated: fancybox/fancybox_loading.gif</span><br><span class="line">INFO  Generated: fancybox/fancybox_sprite.png</span><br><span class="line">INFO  Generated: fancybox/fancybox_sprite@2x.png</span><br><span class="line">INFO  Generated: fancybox/helpers/jquery.fancybox-buttons.css</span><br><span class="line">INFO  Generated: archives/2019/05/index.html</span><br><span class="line">INFO  Generated: js/script.js</span><br><span class="line">INFO  Generated: fancybox/helpers/jquery.fancybox-thumbs.css</span><br><span class="line">INFO  Generated: fancybox/jquery.fancybox.css</span><br><span class="line">INFO  Generated: css/style.css</span><br><span class="line">INFO  Generated: archives/2019/index.html</span><br><span class="line">INFO  Generated: fancybox/helpers/jquery.fancybox-buttons.js</span><br><span class="line">INFO  Generated: fancybox/helpers/fancybox_buttons.png</span><br><span class="line">INFO  Generated: fancybox/jquery.fancybox.pack.js</span><br><span class="line">INFO  Generated: css/fonts/fontawesome-webfont.eot</span><br><span class="line">INFO  Generated: css/fonts/fontawesome-webfont.woff</span><br><span class="line">INFO  Generated: css/fonts/fontawesome-webfont.ttf</span><br><span class="line">INFO  Generated: fancybox/helpers/jquery.fancybox-media.js</span><br><span class="line">INFO  Generated: fancybox/helpers/jquery.fancybox-thumbs.js</span><br><span class="line">INFO  Generated: css/fonts/FontAwesome.otf</span><br><span class="line">INFO  Generated: fancybox/jquery.fancybox.js</span><br><span class="line">INFO  Generated: css/fonts/fontawesome-webfont.svg</span><br><span class="line">INFO  Generated: css/images/banner.jpg</span><br><span class="line">INFO  Generated: 2019/05/31/hello-world/index.html</span><br><span class="line">INFO  28 files generated <span class="keyword">in</span> 493 ms</span><br></pre></td></tr></table></figure>
+<h3 id="生产静态blog"><a href="#生产静态blog" class="headerlink" title="生产静态blog"></a>生产静态blog</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate(g)</span><br><span class="line">INFO  Start processing</span><br><span class="line">INFO  Files loaded <span class="keyword">in</span> 230 ms</span><br><span class="line">.....</span><br><span class="line">INFO  28 files generated <span class="keyword">in</span> 493 ms</span><br></pre></td></tr></table></figure>
 
 <h3 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">_config.yml   --&gt; 博客的配置文件</span><br><span class="line">db.json     </span><br><span class="line">node_modules/ --&gt; 依赖包</span><br><span class="line">package.json</span><br><span class="line">package-lock.json</span><br><span class="line">public/       --&gt; 存放生成的页面</span><br><span class="line">scaffolds/    --&gt; 生成文章的一些模板</span><br><span class="line"><span class="built_in">source</span>/       --&gt; 存放你的文章</span><br><span class="line">themes/       --&gt; 主题</span><br></pre></td></tr></table></figure>
 
@@ -439,7 +994,9 @@
 <h2 id="空格"><a href="#空格" class="headerlink" title="空格"></a>空格</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">使用全角的空格就可以生成首行缩进的效果</span><br></pre></td></tr></table></figure>
 
 <h2 id="代码目录"><a href="#代码目录" class="headerlink" title="代码目录"></a>代码目录</h2><pre><code class="bash"><span class="comment"># ![修改代码目录](./HexoSetup/Directory.JPG)</span></code></pre>
-<img src="/Hexo/e121ad2/Directory.JPG" title="修改代码目录">  
+{% asset_img Directory.JPG 修改代码目录%}  
+
+<h2 id="添加链接"><a href="#添加链接" class="headerlink" title="添加链接"></a>添加链接</h2><pre><code class="bash"><span class="comment"># [链接名字](链接地址)</span></code></pre>
 
           
         
@@ -558,7 +1115,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-09-10 08:55:16" itemprop="dateModified" datetime="2019-09-10T08:55:16+08:00">2019-09-10</time>
+                <time title="修改时间：2019-10-14 16:19:04" itemprop="dateModified" datetime="2019-10-14T16:19:04+08:00">2019-10-14</time>
               
             
           </span>
@@ -601,7 +1158,10 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/</span><br><span class="line">conda config --set show_channel_urls yes</span><br><span class="line"></span><br><span class="line">path:</span><br><span class="line">C:\Users\[你的用户名]\.condarc , conda info 也可以查看</span><br><span class="line">file content : </span><br><span class="line">去掉 defaults, 就可以只保留使用清华源，将清华源移到第一项可以默认先使用清华源</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>切换虚拟环境</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(base) liu:~ xingyanl$ source activate 181009</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(base) liu:~ xingyanl$ source activate 181009</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装pytorch的环境</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(base) liu:~ xingyanl$ conda install pytorch torchvision -c pytorch</span><br></pre></td></tr></table></figure></li>
 </ol>
 
           
@@ -721,7 +1281,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-10-11 09:59:17" itemprop="dateModified" datetime="2019-10-11T09:59:17+08:00">2019-10-11</time>
+                <time title="修改时间：2019-12-17 10:38:18" itemprop="dateModified" datetime="2019-12-17T10:38:18+08:00">2019-12-17</time>
               
             
           </span>
@@ -801,6 +1361,7 @@
 <li><strong>CGAI</strong>   Carrier Group Administration Interface</li>
 <li><strong>CGCI</strong>   Carrier Group Control Interface</li>
 <li><strong>CGQI</strong>   Carrier Group Query Interface</li>
+<li><strong>CEF</strong>    Complete Fault - Only boots MW and reports results/alarms</li>
 <li><strong>CN</strong>     Core Network  核心网</li>
 <li><strong>CNA</strong>    PDU BI CAT NC &amp; APC</li>
 <li><strong>COAM</strong>   CATOAM</li>
@@ -975,7 +1536,8 @@ Management Object Model</code></pre></li>
 <h1 id="N"><a href="#N" class="headerlink" title="N"></a>N</h1><ul>
 <li><strong>NC</strong>     Node Control</li>
 <li><strong>NDS</strong>    Network Design Specification</li>
-<li><strong>NF</strong>     Network Functions </li>
+<li><strong>NF</strong>     Network Functions</li>
+<li><strong>NFF</strong>    No Fault Found </li>
 <li><strong>NGS</strong>    Node Group Synchronization</li>
 <li><strong>NMS</strong>    Network Management System</li>
 <li><strong>NPU</strong>    Network Processor Unit</li>
@@ -998,6 +1560,7 @@ Management Object Model</code></pre></li>
 <li><strong>PCB</strong>    Printed Circuit Board</li>
 <li><strong>PDP</strong>    Product Development Phase</li>
 <li><strong>PDU</strong>    Product development unit</li>
+<li><strong>PEF</strong>    Partial Fault</li>
 <li><strong>PG</strong>     Product Guardians</li>
 <li><strong>PIM</strong>    Passive InterModulation </li>
 <li><strong>PIMCU</strong>  Passive InterModulation Cancellation Unit</li>
@@ -1016,6 +1579,7 @@ Management Object Model</code></pre></li>
 <li><strong>RAC</strong>    RAN Application<pre><code>Radio Access Control</code></pre></li>
 <li><strong>RAD</strong>    Radio Architecture Description</li>
 <li><strong>RAN</strong>    Radio Access Network</li>
+<li><strong>RANK</strong>   重启等级</li>
 <li><strong>RAT</strong>    Radio Access Technology</li>
 <li><strong>RBB</strong>    Radio Building Blocks</li>
 <li><strong>RBS</strong>    Radio Base Station </li>
@@ -1233,7 +1797,7 @@ Management Object Model</code></pre></li>
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-06-22 06:31:54" itemprop="dateModified" datetime="2019-06-22T06:31:54+08:00">2019-06-22</time>
+                <time title="修改时间：2019-10-17 08:46:27" itemprop="dateModified" datetime="2019-10-17T08:46:27+08:00">2019-10-17</time>
               
             
           </span>
@@ -1302,6 +1866,15 @@ Management Object Model</code></pre></li>
 <li>学习记笔记的方法，记了以后要能看懂</li>
 </ol>
 <h1 id="6-22-周六"><a href="#6-22-周六" class="headerlink" title="6.22 周六"></a>6.22 周六</h1><p>　　该来的始终要来，该做的事情还是要做，想躲过去英语终究还是躲不过去呢。目前感觉因为demo的事情，跟mentor闹的有点不愉快，当然我对她的工作也有些不满，但是最后看起来还是自己的问题多一些，你不问，就别怪人家不说。不去想这个事情了，还是开始准备自己的PPT吧，即使现在有很多事情，不过想想好像也没有那么多事情需要忙呢。<br>　　1. Radio Support Demo: 把VSWR和RfBranch的事情都放进去，稍微讲一下。<br>　　2. AC Demo: 把启动AC的这个问题理清楚一下。<br>　　3. IRU Demo：如果可能的话，把5902和5854的SP2的事情来说一下，聊聊IRU的东西。<br>　　差不多先这样吧，把衣服洗洗，然后去新家搞下卫生</p>
+<h1 id="10-14-周一"><a href="#10-14-周一" class="headerlink" title="10.14 周一"></a>10.14 周一</h1><ol>
+<li>哈佛幸福公开课</li>
+<li>WOOP模型</li>
+<li>情绪管理ABC理论</li>
+<li>不评论，学会倾听</li>
+</ol>
+<h1 id="10-16-周三"><a href="#10-16-周三" class="headerlink" title="10.16 周三"></a>10.16 周三</h1><ol>
+<li>要多问，但问之前要准备好</li>
+</ol>
 
           
         
@@ -1905,7 +2478,7 @@ Management Object Model</code></pre></li>
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-count">10</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
